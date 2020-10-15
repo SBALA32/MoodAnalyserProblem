@@ -1,21 +1,32 @@
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using MoodeAnalyseAndExceptional;
-namespace MoodAnalyseTest
+using System;
+using System.Collections.Generic;
+using System.Text;
+namespace MoodeAnalyseAndExceptional
 {
-    [TestClass]
-    public class UnitTest1
+    public class MoodAnalyse
     {
-        [TestMethod]
-        [DataRow(null)]
-        public void TestMethod1(string message)
+        private string message;
+        public MoodAnalyse(string message)
         {
-            //Arrange
-            string expected = "HAPPY";
-            MoodAnalyse mood = new MoodAnalyse(message);
-            //Act
-            var result = mood.analyseMood();
-            //Assert
-            Assert.AreEqual(expected, result);
+            this.message = message;
+        }
+        public string analyseMood()
+        {
+            try
+            {
+                if (this.message.Equals(string.Empty))
+                {
+                    throw new MoodAnalysisException(MoodAnalysisException.ExceptionType.EMPTY_MESSAGE, "Mood should not be empty");
+                }
+                if (message.Contains("sad"))
+                    return "SAD";
+                else
+                    return "HAPPY";
+            }
+            catch(Exception e)
+            {
+                throw new MoodAnalysisException(MoodAnalysisException.ExceptionType.NULL_MESSAGE, "Mood should not be null");
+            }
         }
     }
 }
